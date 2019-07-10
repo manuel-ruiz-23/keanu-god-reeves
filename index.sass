@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap')
+@import linksForm
+   
+$light-color: #F9BE87
+$primary-color: #F89A70
+$dark-color: #D43328
+
+body
+    background: radial-gradient(1019.29px at 50% 29.54%, #F9BE87 0%, #F89A70 54.17%, #D43328 100%)
+    display: grid
+    grid-template-columns: 25% 50% 25%
+
+.keanu
+    grid-column: 2 / 3
+    display: flex
+    flex-flow: column
+
+    img
+        align-self: center
+        border: 8px inset gold
+        grid-column: 2 / 3
+    p
+        align-self: center
+        font-family: 'Lobster', cursive
+        color: gold
+        font-size: 24px
+        
+
+.links
+    display: flex
+    flex-flow: column
+    align-items: center
+    justify-content: space-around
+
+.link
+    display: flex
+    align-items: center
+    justify-items: center
+    
+    a
+        padding: 8px
+        color: gold
+        font-size: 40px
+        text-decoration: none
+        font-family: 'Lobster', cursive
+    
+    button
+        height: 32px
+        width: 32px
+
+.right
+    grid-column: 3 / 4
+
+.left
+    grid-column: 1 / 2

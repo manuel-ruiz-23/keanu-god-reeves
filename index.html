@@ -1,0 +1,152 @@
+<head>
+    <title>
+        keanu god reeves
+    </title>
+    <link rel="stylesheet" type="text/css" href="output.css">
+
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+
+
+<body>
+    <div class="links left">
+    </div>
+    <div class="keanu">
+        <img src="./keanu-god.png">
+        <p>
+            No puedo ser parte de un mundo donde las personas falsamente declaran que creen en Dios con un SHOT
+                de alcohol en sus manos y con ningún tipo de conocimiento de la religión. 
+                Donde el concepto de celos es considerado vergonzoso y la modestia es una desventaja. 
+                Donde las personas se olvidaron del amor, pero aun así buscan tener pareja. 
+                Donde las personas reparan cada falla de su carro, pero no ahorran su tiempo para ellos 
+                mismos y se ven tan pobres tratando de ocultarse atrás de un auto lujoso. 
+                Donde los chicos gastan el dinero de sus padres en antros (discotecas), 
+                desarrollándose bajo sonidos primitivos, y las chicas se enamoran de ese tipo de chicos
+                 - keanu god reeves
+        </p>
+    </div>
+    <div class="links right">
+    </div>
+
+</body>
+
+<!-- LinkForm React.Component -->
+<script type="text/babel">
+class LinkForm extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            text: '',
+            link: ''
+        }
+    }
+
+    onChange = event =>{
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+
+    submit = event => {
+        event.preventDefault();
+        localStorage.setItem(this.props.id,JSON.stringify(this.state));
+        this.props.reRender();
+    }
+
+    render(){
+        const {text, link} = this.state;
+        return(
+            <div className="link-form" id={this.props.id}>
+                <input 
+                    value={text}
+                    onChange={this.onChange}
+                    name="text"
+                    type="text"
+                    placeholder="Text"
+                />
+                <input 
+                    value={link}
+                    onChange={this.onChange}
+                    name="link"
+                    type="text"
+                    placeholder="Link"
+                />
+                <button onClick={this.submit}>
+                    Guardar
+                </button>
+            </div>
+        )
+    }
+    
+}
+</script>
+<!-- Link React.Component -->
+<script type="text/babel">
+const Link = ({link, id, reRender}) => {
+
+    const deleteLink = () =>{
+        localStorage.removeItem(id);
+        reRender()
+    }
+
+    return(
+        <div className="link">
+            <a href={link.link}>{link.text}</a>
+            <button onClick={deleteLink}>
+            X    
+            </button>
+        </div>
+    )
+}
+</script>
+<!-- LinksArray React.Component -->
+<script type="text/babel">
+class LinksArray extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            ...props.ids
+        }
+
+        this.reRender = this.reRender.bind(this);
+    }
+
+    reRender(){
+        this.forceUpdate();
+    }
+
+    conditionalRender(){
+        let ids = [];
+        
+        for(let key in this.state){
+            ids.push(this.state[key]);
+        }
+
+        return ids.map((value,index) => {
+
+            let link = localStorage.getItem(value);
+
+            if(link){
+                link = JSON.parse(link);
+                // return <a href={link.link}>{link.text}</a>
+                return <Link key={index} link={link} id={value} reRender={this.reRender}/>
+            }else{
+                return <LinkForm id={value} key={index} reRender={this.reRender}/>
+            }
+        })
+    }
+
+    render(){
+        return this.conditionalRender()   
+    }
+}
+
+let right = document.querySelector('.right');
+let left = document.querySelector('.left');
+// ReactDOM.render(<LinkForm id="uno" />, right);
+ReactDOM.render(<LinksArray ids={['uno','dos','tres']}/>, left);
+ReactDOM.render(<LinksArray ids={['cuatro','cinco','seis']}/>, right);
+</script>
